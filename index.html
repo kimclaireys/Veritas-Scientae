@@ -35,6 +35,47 @@
     </footer>
 
     <!-- JS는 항상 body 맨 아래 -->
-    <script src="script.js"></script>
+    <script src="script.js"><script type="module">
+import { getAuth, onAuthStateChanged, signOut } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+
+const firebaseConfig = {
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+
+onAuthStateChanged(auth, (user) => {
+  const topbar = document.querySelector(".topbar");
+
+  if (user) {
+    topbar.innerHTML = `
+      <h5>Veritas Scientiae</h5>
+      <h5>
+        ${user.email} |
+        <a href="#" id="logoutBtn">Logout</a> |
+        <a href="submit.html">Submit Paper</a>
+      </h5>
+    `;
+
+    document.getElementById("logoutBtn").addEventListener("click", () => {
+      signOut(auth).then(() => {
+        window.location.reload();
+      });
+    });
+
+  } else {
+    topbar.innerHTML = `
+      <h5>Veritas Scientiae</h5>
+      <h5><a href="login.html">Login</a></h5>
+    `;
+  }
+});
+</script>
+</script>
 </body>
 </html>
