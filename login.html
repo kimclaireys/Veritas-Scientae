@@ -1,14 +1,50 @@
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Veritas Scientae</title>
+  <link rel="stylesheet" href="style.css">
+</head>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyDa-v9FqEv5o-o0mJxq00j0m9XCbGORsRc",
-    authDomain: "veritas-scientae.firebaseapp.com",
-    projectId: "veritas-scientae",
-    storageBucket: "veritas-scientae.firebasestorage.app",
-    messagingSenderId: "274901045845",
-    appId: "1:274901045845:web:70d774d656dd296561badc"
-  };
+<body>
+  <h2 style="text-align:center; margin-top:60px;">Login</h2>
 
-  const app = initializeApp(firebaseConfig);
-</script>
+  <div style="text-align:center; margin-top:30px;">
+    <input type="email" id="email" placeholder="Email" style="padding:10px; width:250px;"><br><br>
+    <input type="password" id="password" placeholder="Password" style="padding:10px; width:250px;"><br><br>
+    <button id="loginBtn" style="padding:10px 20px;">Login</button>
+  </div>
+
+  <!-- Firebase + Login Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDa-v9FqEv5o-o0mJxq00j0m9XCbGORsRc",
+      authDomain: "veritas-scientae.firebaseapp.com",
+      projectId: "veritas-scientae",
+      storageBucket: "veritas-scientae.firebasestorage.app",
+      messagingSenderId: "274901045845",
+      appId: "1:274901045845:web:70d774d656dd296561badc"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.getElementById("loginBtn").addEventListener("click", () => {
+      const email = document.getElementById("email").value;
+      const password = document.getElementById("password").value;
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          alert("Login successful!");
+          window.location.href = "index.html";
+        })
+        .catch((error) => {
+          alert("Login failed: " + error.message);
+        });
+    });
+  </script>
+</body>
+</html>
