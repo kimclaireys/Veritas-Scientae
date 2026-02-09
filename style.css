@@ -1,0 +1,72 @@
+body {
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #ffffff;
+  color: #111;
+}
+#title{
+    font-family: serif;
+    font-weight: normal;
+    font-size: 65px;
+    letter-spacing: 0.3px;
+    margin-top: 50px;
+    margin-bottom:10px;
+    color: rgb(7, 2, 41);
+    text-align: center;
+}
+.topbar{
+    margin:0;
+    background: rgb(7, 2, 41);
+    color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3px 35px;
+    font-size: 17px;
+    line-height: 0.02;
+    font-family: serif;
+}
+.topbar a {
+  color: white;
+  text-decoration: none;
+}
+.topbar a:visited {
+  color: white;
+}
+#description {
+  font-family: serif;
+  color: rgb(61, 61, 61);
+  text-align: center;
+  font-size: 15px;
+  margin-top: 10px;
+  margin-bottom: 60px;
+}
+#footer {
+    text-align: center;
+    font-family: serif;
+    margin-top: 400px;
+}
+#research{
+    text-align: center;
+    font-family: serif;
+}
+#review{
+    text-align: center;
+    font-family: serif;
+}
+.topic{
+    display:flex;
+    text-align: center;
+    justify-content: space-evenly;
+    font-family: serif;
+    margin: 1px;
+    font-size: 17px;
+}
+.topic a{
+    color:rgb(7, 2, 41);
+    text-decoration: none;
+}
+hr {
+    margin-top:-10px;
+    margin-bottom:-10px;
+}
+

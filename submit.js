@@ -1,0 +1,1 @@
+const pdfURL = document.getElementById("pdfLink").value;
