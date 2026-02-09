@@ -1,6 +1,64 @@
 <!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8"/>
-<input type="text" id="pdfLink" placeholder="Paste Google Drive PDF link here" required>
-</html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Submit Paper</title>
+</head>
+<body>
 
+<h2>Upload Your Research Paper (PDF)</h2>
+
+<input type="file" id="pdfFile" accept="application/pdf"><br><br>
+<button id="uploadBtn">Upload PDF</button>
+
+<p id="status"></p>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+  import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyDa-v9FqEv5o-o0mJxq00j0m9XCbGORsRc",
+    authDomain: "veritas-scientae.firebaseapp.com",
+    projectId: "veritas-scientae",
+    storageBucket: "veritas-scientae.firebasestorage.app",
+    messagingSenderId: "274901045845",
+    appId: "1:274901045845:web:70d774d656dd296561badc"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const storage = getStorage(app);
+
+  const uploadBtn = document.getElementById("uploadBtn");
+  const status = document.getElementById("status");
+
+  // 🔒 로그인 체크
+  onAuthStateChanged(auth, (user) => {
+    if (!user) {
+      status.innerText = "⚠️ You must be logged in to upload.";
+      uploadBtn.disabled = true;
+    } else {
+      status.innerText = "Logged in as " + user.email;
+      uploadBtn.disabled = false;
+    }
+  });
+
+  // 📤 업로드 기능
+  uploadBtn.addEventListener("click", async () => {
+    const file = document.getElementById("pdfFile").files[0];
+    if (!file) {
+      alert("Please select a PDF file");
+      return;
+    }
+
+    const storageRef = ref(storage, "papers/" + file.name);
+    await uploadBytes(storageRef, file);
+
+    alert("Upload successful!");
+  });
+</script>
+
+</body>
+</html>
