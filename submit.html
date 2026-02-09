@@ -1,63 +1,43 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
   <title>Submit Paper</title>
 </head>
 <body>
 
-<h2>Upload Your Research Paper (PDF)</h2>
+<h2>Upload Research Paper (PDF)</h2>
 
-<input type="file" id="pdfFile" accept="application/pdf"><br><br>
-<button id="uploadBtn">Upload PDF</button>
+<input type="file" id="pdfFile" accept="application/pdf">
+<button onclick="uploadPDF()">Upload</button>
 
 <p id="status"></p>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
-  import { getStorage, ref, uploadBytes } from "https://www.gstatic.com/firebasejs/12.9.0/firebase-storage.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyDa-v9FqEv5o-o0mJxq00j0m9XCbGORsRc",
-    authDomain: "veritas-scientae.firebaseapp.com",
-    projectId: "veritas-scientae",
-    storageBucket: "veritas-scientae.firebasestorage.app",
-    messagingSenderId: "274901045845",
-    appId: "1:274901045845:web:70d774d656dd296561badc"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const storage = getStorage(app);
-
-  const uploadBtn = document.getElementById("uploadBtn");
-  const status = document.getElementById("status");
-
-  // 🔒 로그인 체크
-  onAuthStateChanged(auth, (user) => {
-    if (!user) {
-      status.innerText = "⚠️ You must be logged in to upload.";
-      uploadBtn.disabled = true;
-    } else {
-      status.innerText = "Logged in as " + user.email;
-      uploadBtn.disabled = false;
-    }
-  });
-
-  // 📤 업로드 기능
-  uploadBtn.addEventListener("click", async () => {
+<script>
+  async function uploadPDF() {
     const file = document.getElementById("pdfFile").files[0];
     if (!file) {
-      alert("Please select a PDF file");
+      alert("Select a PDF file first!");
       return;
     }
 
-    const storageRef = ref(storage, "papers/" + file.name);
-    await uploadBytes(storageRef, file);
+    const cloudName = "YOUR_CLOUD_NAME";  // 🔥 여기 네 Cloudinary cloud name 넣기
+    const url = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
 
-    alert("Upload successful!");
-  });
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "unsigned_preset");
+
+    document.getElementById("status").innerText = "Uploading...";
+
+    const response = await fetch(url, {
+      method: "POST",
+      body: formData
+    });
+
+    const data = await response.json();
+    document.getElementById("status").innerHTML =
+      `Upload complete! <br><a href="${data.secure_url}" target="_blank">View PDF</a>`;
+  }
 </script>
 
 </body>
