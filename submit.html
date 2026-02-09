@@ -92,6 +92,18 @@ window.uploadPost = async function () {
 
   document.getElementById("status").innerText = "✅ 업로드 완료!";
 }
+  import { getAuth, onAuthStateChanged } 
+from "https://www.gstatic.com/firebasejs/12.9.0/firebase-auth.js";
+
+const auth = getAuth();
+
+onAuthStateChanged(auth, (user) => {
+  if (!user) {
+    // 로그인 안 한 경우만 로그인 페이지로 보냄
+    window.location.href = "login.html";
+  }
+});
+
 </script>
 
 </html>
